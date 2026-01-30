@@ -5259,7 +5259,8 @@ small {
 }
 
 .btn:hover, .btn-large:hover, .btn-small:hover {
-  background-color: #2bbbad;
+  background-color: #A81F27;
+  opacity: 0.5;
 }
 
 .btn-floating {

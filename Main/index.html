@@ -6,13 +6,12 @@
   <title>Go-Sauna</title>
    <!-- <title>My Page Title</title> -->
   <!-- <link rel="icon" type="image/x-icon" href="/parallax-template/images/Logo.webp"> -->
-
-
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">(function(){emailjs.init({publicKey: "Jm5M0pwL6D0ND_mqc",});})();</script>
 
     <title>HTML Favicon</title>
     <!-- Add icon link -->
-    <link rel="icon" href="images/Logo.webp " type="image/x-icon">
-
+    <link rel="icon" href="images/Logo.webp " type="image/x-icon"
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -105,19 +104,59 @@
     <div class="parallax"><img src="images/1920_lenimountain-soelden-byrudiwyhlidal-1493-hdr-edit.jpg" alt="Unsplashed background img 2"></div>
   </div>
 
+
+
+
+
+
+
+
+
+
+
+
   <div class="container">
     <div class="section">
 
       <div class="row">
-        <div class="col s12 center">
+        <div class="col l3 s12">
+          
+        </div>
+        <div class="col l6 s12 center">
           <h3><i class="mdi-content-send brown-text"></i></h3>
           <h4 class="compcolorfont">Contact Us</h4>
-          <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+          <form action="/action_page.php">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" min="3" max="60" placeholder="Name*" required/><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" placeholder="Email*" min="3" max="60" required/><br>
+            <label for="phone">Phone:</label><br>
+            <input type="text" id="phone" name="phone" placeholder="Phone"/><br>
+            <label for="location">Location:</label><br>
+            <input type="text" id="location" name="location" placeholder="Location (City, State)"/><br>
+            <label for="message">Message:</label><br><br>
+            <textarea id="message" name="message" cols="100%" rows="50" spellcheck="true" style="height: 15em" placeholder="Heating up. Be the first to hear Go-Sauna news!"></textarea>
+
+            <input type="submit" class="btn compcolorfill" onclick="sendEmail()"></input>
+            <!-- <button type="button" class="btn compcolorfill" onclick="sendEmail()">Send</button> -->
+
+          </form>
+        </div>
+        <div class="col l3 s12">
         </div>
       </div>
 
     </div>
   </div>
+
+
+
+
+
+
+
+
+
 
 
   <div class="parallax-container valign-wrapper">
@@ -141,6 +180,7 @@
 
         </div>
         <div class="col l3 s12">
+          
           <!-- <h5 class="white-text">Settings</h5>
           <ul>
             <li><a class="white-text" href="#!">Link 1</a></li>
@@ -188,6 +228,8 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+  <script src="js/script.js"></script>
 
   </body>
 </html>
