@@ -1,0 +1,91 @@
+/* Temp gauge anti-jitter fix */
+.temp-gauge-stable,
+.temp-gauge-stable * {
+  animation: none !important;
+  transition: none !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+.temp-gauge-stable {
+  transform: translateZ(0) !important;
+  will-change: auto !important;
+  transition-property: opacity, color, background-color, border-color !important;
+}
+
+.temp-gauge-value {
+  display: inline-block !important;
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: "tnum" 1, "lnum" 1 !important;
+}
+
+.temp-gauge-value.temp-gauge-source {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.temp-gauge-host {
+  position: relative !important;
+}
+
+.temp-gauge-overlay {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 3 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55) !important;
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: "tnum" 1, "lnum" 1 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+
+.temp-gauge-bounds {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 4px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0 10px !important;
+  pointer-events: none !important;
+  z-index: 3 !important;
+}
+
+.temp-gauge-bound {
+  color: #ffffff !important;
+  opacity: 0.95 !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-variant-numeric: tabular-nums !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6) !important;
+}
+
+.temp-gauge-label-mask {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: 26px !important;
+  background: #0d0b09 !important;
+  opacity: 0.96 !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+.grid.sm\:grid-cols-2.gap-6 {
+  position: relative !important;
+  top: 0 !important;
+}
+
+
+
+.temp-gauge-stable [style*="transform"],
+.temp-gauge-stable *[style*="transform"] {
+  transform: none !important;
+}
