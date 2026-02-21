@@ -1,3 +1,4 @@
+/* Theme tokens */
 :root {
   --bg: #0d0b09;
   --card: #17120f;
@@ -8,10 +9,12 @@
   --accent-2: #ffcf88;
 }
 
+/* Global reset helpers */
 * {
   box-sizing: border-box;
 }
 
+/* Page canvas and background atmosphere */
 html,
 body {
   margin: 0;
@@ -29,11 +32,13 @@ a {
   text-decoration: none;
 }
 
+/* Shared layout container */
 .container {
   width: min(1120px, 92vw);
   margin: 0 auto;
 }
 
+/* Sticky top navigation */
 .nav {
   position: sticky;
   top: 0;
@@ -62,6 +67,7 @@ a {
   color: var(--muted);
 }
 
+/* Hero region */
 .hero {
   padding: 78px 0 48px;
 }
@@ -85,6 +91,7 @@ a {
   flex-wrap: wrap;
 }
 
+/* Button primitives */
 .btn {
   border: 1px solid transparent;
   border-radius: 999px;
@@ -104,6 +111,7 @@ a {
   color: var(--text);
 }
 
+/* Feature card grid */
 .cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -128,6 +136,7 @@ a {
   font-size: 0.95rem;
 }
 
+/* Booking form + summary panel layout */
 .booking {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -186,12 +195,15 @@ textarea {
   color: var(--muted);
 }
 
+/* Mobile adaptations */
 @media (max-width: 900px) {
-  .cards {
+  /* Feature card grid */
+.cards {
     grid-template-columns: 1fr;
   }
 
-  .booking {
+  /* Booking form + summary panel layout */
+.booking {
     grid-template-columns: 1fr;
   }
 

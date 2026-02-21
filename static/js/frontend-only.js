@@ -1,7 +1,12 @@
 (function () {
+  // Frontend-only fallback page renderer.
+  // This script injects static UI markup for design work without backend wiring.
+  // Root node from index.html where this temporary UI is mounted.
   const root = document.getElementById("root");
+  // Safeguard in case the document structure changes.
   if (!root) return;
 
+  // Single HTML template inserted as a full-page preview shell.
   root.innerHTML = `
     <header class="nav">
       <div class="container nav-row">

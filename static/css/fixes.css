@@ -1,4 +1,10 @@
 /* Temp gauge anti-jitter fix */
+:root {
+  --go-sauna-relax: #0d3b8e;
+  --go-sauna-relax-deep: #072455;
+}
+
+/* Gauge stability base rules */
 .temp-gauge-stable,
 .temp-gauge-stable * {
   animation: none !important;
@@ -13,6 +19,7 @@
   transition-property: opacity, color, background-color, border-color !important;
 }
 
+/* Numeric formatting for temperature text */
 .temp-gauge-value {
   display: inline-block !important;
   font-variant-numeric: tabular-nums !important;
@@ -20,20 +27,68 @@
 }
 
 .temp-gauge-value.temp-gauge-source {
+  position: absolute !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
 
+/* Host alignment and containment to prevent x drift */
 .temp-gauge-host {
   position: relative !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  left: auto !important;
+  right: 0 !important;
+  text-align: right !important;
+  box-sizing: border-box !important;
+  contain: layout paint style !important;
 }
 
+.temp-gauge-host svg,
+.temp-gauge-host canvas {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+
+.temp-gauge-x-lock {
+  position: relative !important;
+  left: auto !important;
+  right: 0 !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  transform: none !important;
+  translate: 0 0 !important;
+  text-align: right !important;
+  box-sizing: border-box !important;
+  contain: layout paint style !important;
+}
+
+.temp-gauge-x-lock-parent {
+  left: auto !important;
+  right: 0 !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  translate: 0 0 !important;
+}
+
+/* In-gauge overlay value styling */
 .temp-gauge-overlay {
   position: absolute !important;
-  left: 50% !important;
+  right: 10px !important;
   top: 50% !important;
-  transform: translate(-50%, -50%) !important;
+  transform: translateY(-50%) !important;
   z-index: 3 !important;
+  width: 7ch !important;
+  min-width: 7ch !important;
+  text-align: right !important;
   font-weight: 700 !important;
   letter-spacing: 0.01em !important;
   color: #ffffff !important;
@@ -44,6 +99,7 @@
   pointer-events: none !important;
 }
 
+/* Custom min/max bound labels */
 .temp-gauge-bounds {
   position: absolute !important;
   left: 0 !important;
@@ -66,16 +122,37 @@
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6) !important;
 }
 
+/* Masks to hide legacy native labels */
 .temp-gauge-label-mask {
   position: absolute !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
   height: 26px !important;
-  background: #0d0b09 !important;
+  background: var(--go-sauna-relax-deep) !important;
   opacity: 0.96 !important;
   pointer-events: none !important;
   z-index: 2 !important;
+}
+
+
+.temp-gauge-side-mask {
+  position: absolute !important;
+  bottom: 0 !important;
+  width: 58px !important;
+  height: 44px !important;
+  background: var(--go-sauna-relax-deep) !important;
+  opacity: 0.98 !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+.temp-gauge-side-mask-left {
+  left: 0 !important;
+}
+
+.temp-gauge-side-mask-right {
+  right: 0 !important;
 }
 
 .grid.sm\:grid-cols-2.gap-6 {
@@ -88,4 +165,484 @@
 .temp-gauge-stable [style*="transform"],
 .temp-gauge-stable *[style*="transform"] {
   transform: none !important;
+}
+
+
+/* Startup steam effect */
+/* Startup steam overlay (first-load atmospheric effect) */
+.startup-steam {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 110;
+  overflow: hidden;
+  opacity: 0;
+  animation: startup-steam-fade 4s ease-out forwards;
+}
+
+.startup-steam::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(95% 72% at 50% 118%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.12) 44%, rgba(255,255,255,0) 78%),
+    linear-gradient(to top, rgba(255,255,255,0.12), rgba(255,255,255,0));
+}
+
+.startup-steam-puff {
+  position: absolute;
+  bottom: -12%;
+  left: var(--left, 50%);
+  width: var(--size, 120px);
+  height: calc(var(--size, 120px) * 1.45);
+  margin-left: calc(var(--size, 120px) * -0.5);
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(14px);
+  background: radial-gradient(circle at 50% 55%, rgba(255,255,255,0.46), rgba(255,255,255,0.12) 50%, rgba(255,255,255,0) 78%);
+  animation: startup-steam-rise var(--dur, 1700ms) ease-out var(--delay, 0ms) forwards;
+}
+
+@keyframes startup-steam-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.76);
+  }
+  18% {
+    opacity: 0.44;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift, 0px), -96vh, 0) scale(1.42);
+  }
+}
+
+@keyframes startup-steam-fade {
+  0% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Global relax background override */
+html,
+body,
+#root {
+  background:
+    radial-gradient(980px 560px at 12% -12%, #2f7dff 0%, transparent 58%),
+    radial-gradient(860px 520px at 100% 0%, #1d4fb5 0%, transparent 54%),
+    linear-gradient(160deg, var(--go-sauna-relax-deep), var(--go-sauna-relax)) !important;
+}
+
+
+/* Red-to-relax theme remap */
+:root {
+  --destructive: 214 95% 60% !important;
+  --destructive-foreground: 0 0% 100% !important;
+  --chart-1: 214 95% 60% !important;
+  --chart-5: 214 95% 60% !important;
+}
+
+.dark {
+  --destructive: 214 88% 52% !important;
+  --destructive-foreground: 0 0% 100% !important;
+  --chart-5: 214 88% 52% !important;
+}
+
+.text-red-400,
+.text-red-500,
+.text-red-600,
+.text-red-700,
+.text-rose-400,
+.text-rose-500,
+.text-rose-600,
+.text-pink-500,
+.text-pink-600 {
+  color: #3b82f6 !important;
+}
+
+.bg-red-400,
+.bg-red-500,
+.bg-red-600,
+.bg-red-700,
+.bg-rose-500,
+.bg-rose-600,
+.bg-pink-500,
+.bg-pink-600 {
+  background-color: #2563eb !important;
+}
+
+.border-red-400,
+.border-red-500,
+.border-red-600,
+.border-rose-500,
+.border-rose-600,
+.border-pink-500 {
+  border-color: #3b82f6 !important;
+}
+
+
+
+/* Admin reservations page */
+.admin-page-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+  color: #e6eefc;
+}
+
+.admin-page-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.admin-page-header p {
+  margin: 8px 0 14px;
+  color: #bdd0f3;
+}
+
+.admin-header-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.admin-status {
+  font-size: 0.95rem;
+  color: #bcd0f7;
+}
+
+.admin-status.error {
+  color: #ffb3b3;
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #2c4f8f;
+  border-radius: 12px;
+  background: rgba(8, 30, 71, 0.55);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(114, 157, 232, 0.28);
+  vertical-align: top;
+}
+
+.admin-table th {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #b9cff5;
+  background: rgba(21, 59, 122, 0.55);
+}
+
+.admin-row:nth-child(even) {
+  background: rgba(23, 59, 117, 0.35);
+}
+
+.admin-notes {
+  max-width: 260px;
+  white-space: pre-wrap;
+}
+
+.admin-empty {
+  text-align: center;
+  color: #bdd0f3;
+  padding: 18px;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-btn {
+  border: 1px solid #5f92e6;
+  background: #1d4fb5;
+  color: #fff;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.admin-btn:hover {
+  background: #2f68da;
+}
+
+.admin-btn-delete {
+  background: #b54444;
+  border-color: #e17f7f;
+}
+
+.admin-btn-delete:hover {
+  background: #ce5454;
+}
+
+.admin-btn-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-edit-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 10, 18, 0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 1200;
+}
+
+.admin-edit-modal.open {
+  display: flex;
+}
+
+.admin-edit-panel {
+  width: min(560px, 100%);
+  background: #0f244b;
+  border: 1px solid #2f5fb4;
+  border-radius: 12px;
+  padding: 16px;
+  color: #eef4ff;
+}
+
+.admin-edit-panel h2 {
+  margin: 0 0 12px;
+}
+
+.admin-edit-form {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-edit-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #c6d8fa;
+}
+
+.admin-edit-form input,
+.admin-edit-form textarea {
+  width: 100%;
+  border: 1px solid #4b75bb;
+  background: #102954;
+  color: #eef4ff;
+  border-radius: 8px;
+  padding: 9px 10px;
+}
+
+.admin-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.admin-denied {
+  text-align: center;
+}
+
+
+/* Admin corner tab */
+.admin-corner-tab {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 1400;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 74px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid #78a2ec;
+  background: #1d4fb5;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+}
+
+.admin-corner-tab:hover {
+  background: #2f68da;
+}
+
+
+.admin-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-data-mode {
+  font-size: 0.8rem;
+  border: 1px solid #5b7ebf;
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: #d7e6ff;
+  background: rgba(22, 56, 116, 0.45);
+}
+
+.admin-data-mode.local-only {
+  border-color: #d98c8c;
+  color: #ffd2d2;
+  background: rgba(128, 38, 38, 0.35);
+}
+
+.admin-data-mode.remote-local {
+  border-color: #7ba8f6;
+  color: #d7e8ff;
+  background: rgba(24, 72, 156, 0.35);
+}
+
+
+.admin-visits-panel {
+  margin: 14px 0 18px;
+  border: 1px solid #2c4f8f;
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(8, 30, 71, 0.42);
+}
+
+.admin-visits-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-visits-head h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.admin-visits-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-range-btn {
+  background: #163d8a;
+  border-color: #5f92e6;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+}
+
+.admin-range-btn.active {
+  background: #2f68da;
+}
+
+.admin-visits-legend {
+  margin-top: 8px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  color: #bdd0f3;
+  font-size: 0.78rem;
+}
+
+.admin-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.admin-legend-dot.unique {
+  background: #5ea0ff;
+}
+
+.admin-legend-dot.visits {
+  background: #8ec5ff;
+}
+
+.admin-visits-total {
+  margin-top: 8px;
+  color: #d9e8ff;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-visits-chart {
+  margin-top: 10px;
+  height: 170px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px 4px 0;
+  border-top: 1px solid rgba(127, 163, 227, 0.35);
+}
+
+.admin-visit-item {
+  min-width: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-visit-value {
+  font-size: 0.72rem;
+  color: #cde1ff;
+}
+
+.admin-visit-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.admin-visit-bar {
+  width: 10px;
+  min-height: 8px;
+  border-radius: 4px 4px 2px 2px;
+}
+
+.admin-visit-bar.unique {
+  background: linear-gradient(180deg, #5ea0ff, #2e67d3);
+}
+
+.admin-visit-bar.visits {
+  background: linear-gradient(180deg, #9fd0ff, #4d8ff0);
+}
+
+.admin-visit-label {
+  font-size: 0.67rem;
+  color: #a9c5f1;
+  white-space: nowrap;
+}
+
+.admin-visits-status {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #bdd0f3;
+}
+
+.admin-visits-status.error {
+  color: #ffb3b3;
 }
