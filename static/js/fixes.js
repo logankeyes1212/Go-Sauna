@@ -382,7 +382,7 @@
   }
 
   const ADMIN_APP_ID = "698de9b6841548fa03673e8c";
-  const ADMIN_API_BASE = "https://go-sauna-now.base44.app/api/apps";
+  const ADMIN_API_BASE = window.location.origin + "/api/apps";
   let adminMountQueued = false;
   let adminMounted = false;
   let adminNavQueued = false;
@@ -397,7 +397,7 @@
 
   function getAuthToken() {
     try {
-      return localStorage.getItem("base44_access_token") || localStorage.getItem("token") || "";
+      return localStorage.getItem("go_sauna_access_token") || localStorage.getItem("token") || "";
     } catch {
       return "";
     }
